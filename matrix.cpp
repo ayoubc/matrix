@@ -1,5 +1,6 @@
 #include "matrix.h"
 #include <stdio.h>
+
 using namespace std;
 
 size_t Matrix::get_dimension() const {
@@ -83,6 +84,10 @@ Matrix Matrix::operator*(const Matrix m){
 
 Vector Matrix::operator*(const Vector v){
     size_t n = this->get_dimension();
+
+    if(v.get_dimension() != n) {
+        throw "dimensions not equal";
+    }
     Vector c(n);
     for (size_t i = 0; i < n; i++){
         double sum = 0.0;
@@ -110,9 +115,9 @@ Matrix Matrix::power(int p) {
     if(p == 0) return Matrix::get_identity(this->get_dimension());
     if(p == 1) return *this;
 
-    Matrix b = this->power(p/2);
+    Matrix b = this->power(p>>1);
     b = b*b;
-    if(p%2 != 0){
+    if(p&1){
         b = b * (*this);
     }
     return b;
