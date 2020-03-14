@@ -1,3 +1,3 @@
 # matrix
 
-Implenetation of Matrix and Vector for Linear Algebra
+Implementation of Matrix and Vector for Linear Algebra
