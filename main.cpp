@@ -7,25 +7,25 @@ using namespace std;
 int main(){
 
     try{
-        /*vector<vd> v;
-        for(int i=0; i<3; i++) {
-            vector<double> tmp;
-            for(int j=0;j<3;j++){
-                tmp.push_back(i+j);
-            }
-            v.push_back(tmp);
-        }
-        Matrix a(3, v);*/
-        Matrix a(3, 1);
-        Vector v(3, 2);
-        a.print();
-        v.print();
+        Matrix<double> a(2, 3, 1);
+        Matrix<double> b(3, 3, 1.1);
 
-        (a*v).print();
+        a = b;
+
+        a.print();
+        b.print();
+        //(a*4.1).print();
+        //(a*b).print();
+        //(b.power(0)).print();
+
     }
     catch(const char* msg){
         //printf("%s\n", msg);
         cout << msg << endl;
     }
+    /*catch(exception exc){
+        //printf("%s\n", msg);
+        cout << exc.what() << endl;
+    }*/
     return 0;
 }

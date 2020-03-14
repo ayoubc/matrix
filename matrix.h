@@ -2,32 +2,39 @@
 #define DEF_MATRIX_H
 
 #include <vector>
-#include "vector.h"
-typedef std::vector<double> vd;
-//template<typename T>
+//#include "vector.h"
+
+template<typename T>
 class Matrix {
     public:
-        Matrix(std::size_t n, double initial_value=0.0);
-        Matrix(std::size_t n, std::vector<vd> t_data);
-        Matrix(const Matrix& m);
+        Matrix(std::size_t t_rows, std::size_t t_cols, T initial_value);
+        Matrix(const Matrix<T>& m);
 
         void print() const;
-        std::size_t get_dimension() const;
-        std::vector<vd> get_data() const;
-        void set_cell(std::size_t i, std::size_t j, double val);
-        double get_cell(std::size_t i, std::size_t j) const;
-        Matrix operator*(const double val);
-        Matrix operator*(const Matrix m);
-        Vector operator*(const Vector v);
-        Matrix operator+(const Matrix m);
-        Matrix power(int p);
-        static Matrix get_identity(std::size_t n);
+        std::size_t get_rows() const;
+        std::size_t get_cols() const;
+        std::vector<std::vector<T> > get_data() const;
+        void set_cell(std::size_t i, std::size_t j, T val);
+        T get_cell(std::size_t i, std::size_t j) const;
 
-        ~Matrix();
+        //operators overloading
+        Matrix<T> operator*(const T val);
+        Matrix<T> operator+(const T val);
+
+        Matrix<T>& operator=(const Matrix<T>& m);
+
+        Matrix<T> operator*(const Matrix<T>& m);
+        //Vector operator*(const Vector v);
+        Matrix<T> operator+(const Matrix<T>& m);
+        Matrix<T> power(int p);
+        static Matrix<T> get_identity(std::size_t n);
+
+        virtual ~Matrix();
 
     private:
-        std::size_t m_dim;
-        std::vector<vd> m_data;
+        std::size_t m_rows;
+        std::size_t m_cols;
+        std::vector<std::vector<T> > m_data;
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include "vector.h"
 #include <stdio.h>
+#include <cmath>
 using namespace std;
 
 size_t Vector::get_dimension() const {
@@ -53,6 +54,15 @@ Vector Vector::operator+(const Vector v) {
     return c;
 }
 
+double Vector::magnitude() {
+
+    size_t n = this->get_dimension();
+    double res = 0.0;
+    for(size_t i = 0;i < n; i++) {
+        res += this->get_cell(i) * this->get_cell(i);
+    }
+    return sqrt(res);
+}
 Vector::~Vector() {
     this->m_data.clear();
 }
