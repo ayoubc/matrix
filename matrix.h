@@ -7,7 +7,7 @@
 template<typename T>
 class Matrix {
     public:
-        Matrix(std::size_t t_rows, std::size_t t_cols, T initial_value);
+        Matrix(std::size_t t_rows, std::size_t t_cols, T initial_value=0);
         Matrix(const Matrix<T>& m);
 
         void print() const;
@@ -15,7 +15,7 @@ class Matrix {
         std::size_t get_cols() const;
         std::vector<std::vector<T> > get_data() const;
         void set_cell(std::size_t i, std::size_t j, T val);
-        T get_cell(std::size_t i, std::size_t j) const;
+        T get_cell(std::size_t i, std::size_t j=0) const;
 
         //operators overloading
         Matrix<T> operator*(const T val);
@@ -31,7 +31,7 @@ class Matrix {
 
         virtual ~Matrix();
 
-    private:
+    protected:
         std::size_t m_rows;
         std::size_t m_cols;
         std::vector<std::vector<T> > m_data;

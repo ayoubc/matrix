@@ -34,12 +34,26 @@ Matrix<T>::Matrix(std::size_t t_rows, std::size_t t_cols, T initial_value) {
 // constructor by copy
 template<typename T>
 Matrix<T>::Matrix(const Matrix<T>& m) {
-    if(this->get_rows() != m.get_rows() || this->get_cols() != m.get_cols()) {
-        throw "the two matrices must have same rows and same columns";
+
+    this->m_data.clear();
+    size_t rows = m.get_rows();
+    size_t cols = m.get_cols();
+
+    this->m_data.resize(rows);
+
+    for(size_t i = 0; i < rows ; i++){
+        this->m_data[i].resize(cols);
     }
-    this->m_rows = m.get_rows();
-    this->m_cols = m.get_cols();
-    this->m_data = m.get_data();
+
+    for (size_t i = 0; i < rows; i++){
+        for (size_t j = 0; j < cols; j++){
+            this->set_cell(i, j, m.get_cell(i, j));
+        }
+    }
+
+    this->m_rows = rows;
+    this->m_cols = cols;
+
 }
 
 template<typename T>
@@ -82,7 +96,7 @@ template<typename T>
 Matrix<T> Matrix<T>::operator*(const T val){
     size_t rows = this->get_rows();
     size_t cols = this->get_cols();
-    Matrix<T> ans(rows, cols, this->get_cell(0, 0));
+    Matrix<T> ans(rows, cols);
     for (size_t i = 0; i < rows; i++){
         for (size_t j = 0; j < cols; j++){
             ans.set_cell(i, j, this->get_cell(i, j) * val);
@@ -96,7 +110,7 @@ template<typename T>
 Matrix<T> Matrix<T>::operator+(const T val){
     size_t rows = this->get_rows();
     size_t cols = this->get_cols();
-    Matrix<T> ans(rows, cols, this->get_cell(0, 0));
+    Matrix<T> ans(rows, cols);
     for (size_t i = 0; i < rows; i++){
         for (size_t j = 0; j < cols; j++){
             ans.set_cell(i, j, this->get_cell(i, j) + val);
@@ -108,10 +122,15 @@ Matrix<T> Matrix<T>::operator+(const T val){
 // matrix assignment
 template<typename T>
 Matrix<T>& Matrix<T>::operator=(const Matrix<T>& m){
-    size_t rows = this->get_rows();
-    size_t cols = this->get_cols();
-    if(rows != m.get_rows() || cols != m.get_cols()) {
-        throw "the two matrices must have same rows and same columns";
+
+    this->m_data.clear();
+    size_t rows = m.get_rows();
+    size_t cols = m.get_cols();
+
+    this->m_data.resize(rows);
+
+    for(size_t i = 0; i < rows ; i++){
+        this->m_data[i].resize(cols);
     }
 
     for (size_t i = 0; i < rows; i++){
@@ -119,6 +138,9 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T>& m){
             this->set_cell(i, j, m.get_cell(i, j));
         }
     }
+
+    this->m_rows = rows;
+    this->m_cols = cols;
     return *this;
 }
 
@@ -130,7 +152,7 @@ Matrix<T> Matrix<T>::operator*(const Matrix<T>& m){
     if(cols != m.get_rows()) {
         throw "columns of the first matrix must equal to rows of the second";
     }
-    Matrix<T> ans(rows, m.get_cols(), this->get_cell(0, 0));
+    Matrix<T> ans(rows, m.get_cols());
     for (size_t i = 0; i < rows; i++){
         for (size_t j = 0; j < m.get_cols(); j++){
             T sum = 0;
@@ -168,7 +190,7 @@ Matrix<T> Matrix<T>::operator+(const Matrix<T>& m) {
         //runtime_error("the two matrices must have same rows and same columns");
         throw "the two matrices must have same rows and same columns";
     }
-    Matrix<T> ans(rows, cols, this->get_cell(0, 0));
+    Matrix<T> ans(rows, cols);
     for (size_t i = 0; i < rows; i++){
         for (size_t j = 0; j < cols; j++){
             ans.set_cell(i, j, this->get_cell(i, j) + m.get_cell(i, j));
@@ -199,8 +221,7 @@ Matrix<T> Matrix<T>::get_identity(size_t n) {
     Matrix<T> id(n, n, 0);
     for (size_t i = 0; i < n; i++){
         for (size_t j = 0; j < n; j++){
-            T val = (i == j ? 1 : 0);
-            id.set_cell(i, j, val);
+            id.set_cell(i, j, (i == j ? 1 : 0));
         }
     }
     return id;
@@ -208,6 +229,7 @@ Matrix<T> Matrix<T>::get_identity(size_t n) {
 
 template<typename T>
 Matrix<T>::~Matrix() {
+    //cout << "Matrix\n";
     this->m_data.clear();
 }
 
