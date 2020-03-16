@@ -2,13 +2,15 @@
 #define DEF_MATRIX_H
 
 #include <vector>
-//#include "vector.h"
+//#include "Vector.h"
 
 template<typename T>
 class Matrix {
     public:
-        Matrix(std::size_t t_rows, std::size_t t_cols, T initial_value=0);
-        Matrix(const Matrix<T>& m);
+        Matrix();
+        Matrix(std::size_t n);
+        Matrix(std::size_t n, std::size_t m, T initial_value=0);
+        Matrix(const Matrix<T>& mat);
 
         void print() const;
         std::size_t get_rows() const;
@@ -24,7 +26,8 @@ class Matrix {
         Matrix<T>& operator=(const Matrix<T>& m);
 
         Matrix<T> operator*(const Matrix<T>& m);
-        //Vector operator*(const Vector v);
+        friend Matrix<T> operator* (const Matrix<T>& m, const Matrix<T>& v);
+        //Vector<T> operator*(const Vector<T>& v);
         Matrix<T> operator+(const Matrix<T>& m);
         Matrix<T> power(int p);
         static Matrix<T> get_identity(std::size_t n);

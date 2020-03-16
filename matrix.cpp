@@ -1,4 +1,4 @@
-#include "matrix.h"
+#include "Matrix.h"
 #include <stdio.h>
 #include <iostream>
 #include <stdexcept>
@@ -19,6 +19,23 @@ size_t Matrix<T>::get_cols() const {
 template<typename T>
 vector<vector<T> > Matrix<T>::get_data() const {
     return this->m_data;
+}
+
+template<typename T>
+Matrix<T>::Matrix() {
+    this->m_cols = 0;
+    this->m_rows = 0;
+    this->m_data.resize(0);
+}
+
+template<typename T>
+Matrix<T>::Matrix(size_t n) {
+    this->m_rows = n;
+    this->m_cols = n;
+    this->m_data.resize(n);
+    for(size_t i = 0;i < n; i++) {
+        this->m_data[i].resize(n);
+    }
 }
 
 template<typename T>
@@ -164,23 +181,27 @@ Matrix<T> Matrix<T>::operator*(const Matrix<T>& m){
     }
     return ans;
 }
-
-/*Vector Matrix::operator*(const Vector v){
-    size_t n = this->get_dimension();
-
-    if(v.get_dimension() != n) {
-        throw "dimensions not equal";
+/*
+template<typename T>
+Matrix<T> operator* (const Matrix<T>& m, const Matrix<T>& v) {
+    size_t rows = m.get_rows();
+    size_t cols = m.get_cols();
+    if(cols != v.get_rows()) {
+        throw "columns of the first matrix must equal to rows of the second";
     }
-    Vector c(n);
-    for (size_t i = 0; i < n; i++){
-        double sum = 0.0;
-        for (size_t k = 0; k < n; k++){
-            sum += this->get_cell(i, k) * v.get_cell(k);
+    Matrix<T> ans(rows, v.get_cols());
+    for (size_t i = 0; i < rows; i++){
+        for (size_t j = 0; j < v.get_cols(); j++){
+            T sum = 0;
+            for(size_t k = 0; k < cols; k++) {
+                sum += m.get_cell(i, k) * v.get_cell(k, j);
+            }
+            ans.set_cell(i, j, sum);
         }
-        c.set_cell(i, sum);
     }
-    return c;
-}*/
+    return ans;
+}
+*/
 // matrix addition
 template<typename T>
 Matrix<T> Matrix<T>::operator+(const Matrix<T>& m) {
@@ -236,3 +257,4 @@ Matrix<T>::~Matrix() {
 
 template class Matrix<int> ;
 template class Matrix<double>;
+

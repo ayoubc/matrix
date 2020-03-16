@@ -3,36 +3,39 @@
 #include "matrix.h"
 #include "vector.h"
 using namespace std;
+template<typename T>
+Vector<T> operator* (const Matrix<T>& m, const Vector<T>& v) {
+    if(v.get_rows() != m.get_cols()) {
+        throw "columns of the first matrix must equal to rows of vector";
+    }
+    size_t rows = m.get_rows();
+    Vector<T> ans(rows);
+    for (size_t i = 0; i < rows; i++){
+        T sum = 0;
+        for (size_t j = 0; j < m.get_cols(); j++){
+            sum += m.get_cell(i, j) * v.get_cell(j);
+        }
+        ans.set_cell(i, sum);
+    }
+    return ans;
+}
 
 int main(){
 
     try{
-        //Matrix<double> a(2, 3);
-        //Matrix<double> b(3, 3);
 
-        //a = b;
+        Vector<double> v(2, 1);
+        Matrix<double> m(3, 2, 1.0);
+        //m.print();
 
-        //a.print();
-        //b.print();
-        //(a*4.1).print();
-        //(a*b).print();
-        //(b.power(0)).print();
-        //Matrix<double> *v = new Vector<double>(2, 1.2);
-        Vector<double> v(2, 1.2);
-        Vector<double> k(v);
-        k = k+2;
-        //v.print();
+        Matrix<double> m2 = m*v;
+        //m2.print();
+        Vector<double> v2 = m*v;
+        //v2 = v;
 
-        /*vector<vector<double> > V = v.get_data();
-        for(int i=0 ; i < V.size(); i++) {
-            for(int j=0; j<V[i].size(); j++) {
-                cout << V[i][j] << endl;
-            }
-        }*/
-        //cout << k.magnitude() << endl;
-        (k).print();
-        //k.print();
-        //delete v;
+        v2.print();
+        cout << v2.magnitude() << endl;
+        //v2.print();
     }
     catch(const char* msg){
         //printf("%s\n", msg);
