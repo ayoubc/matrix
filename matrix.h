@@ -2,7 +2,6 @@
 #define DEF_MATRIX_H
 
 #include <vector>
-//#include "Vector.h"
 
 template<typename T>
 class Matrix {

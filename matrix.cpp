@@ -1,4 +1,4 @@
-#include "Matrix.h"
+#include "matrix.h"
 #include <stdio.h>
 #include <iostream>
 #include <stdexcept>
@@ -250,7 +250,6 @@ Matrix<T> Matrix<T>::get_identity(size_t n) {
 
 template<typename T>
 Matrix<T>::~Matrix() {
-    //cout << "Matrix\n";
     this->m_data.clear();
 }
 
